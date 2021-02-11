@@ -3,15 +3,11 @@ project(RealTimeFaceRecognition)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(RealTimeFaceRecognition main.cpp)
+add_executable(RealTimeFaceRecognition main.cpp FaceCaptureController.cpp FaceCaptureController.h)
 
 set( OpenCV_DIR )
 if(WIN32)
-    if( NOT CMAKE_CL_64 )
-        set( OpenCV_DIR "D:/ProgramLibrary/vcpkg/installed/x86-windows/share/opencv" )
-    else()
-        set( OpenCV_DIR "D:/ProgramLibrary/vcpkg/installed/x64-windows/share/opencv" )
-    endif()
+    set( OpenCV_DIR "D:/ProgramLibrary/opencv/build/install/x64/vc16/lib")
 endif()
 if(APPLE)
     set( OpenCV_DIR "/usr/local/lib/cmake/opencv4" )
@@ -33,9 +29,6 @@ if (OpenCV_FOUND)
     # Additional Include Directories
     include_directories( ${OpenCV_INCLUDE_DIRS} )
 
-    # Additional Library Directories
-    link_directories( ${OpenCV_LIB_DIR} )
-
     # Additional Dependencies
-    target_link_libraries( RealTimeFaceRecognition ${OpenCV_LIBS} )
+    target_link_libraries( ${PROJECT_NAME} ${OpenCV_LIBS} )
 endif()

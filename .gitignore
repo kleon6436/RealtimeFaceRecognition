@@ -35,5 +35,7 @@
 .idea
 .vs
 out
+dataset
+trainer
 cmake-build-*
 haarcascade_frontalface_default.xml.txt

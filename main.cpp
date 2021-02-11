@@ -1,43 +1,32 @@
-#include <iostream>
-#include "opencv2/opencv.hpp"
+#include "FaceCaptureController.h"
 
-int main()
-{
-    // You need to change it to the cascade class file path for your environment.
-    const std::string cascadeClass = "../haarcascade_frontalface_default.xml.txt";
-    auto faceCascade = cv::CascadeClassifier(cascadeClass);
+using namespace kchary::RealtimeFaceRecognition::FaceCapture;
 
-    cv::VideoCapture camera(0);
-    if (!camera.isOpened())
+int main(int, char *argv[]) {
+    const std::string mode = argv[1];
+
+    auto faceCaptureController = std::make_unique<FaceCaptureController>();
+    if (mode == "FaceCapture")
     {
-        return -1;
-    }
-
-    cv::Mat inputFrame;
-    std::vector<cv::Rect> contour;
-    while (camera.read(inputFrame))
-    {
-        cv::Mat flipFrame;
-        cv::flip(inputFrame, flipFrame, 1);
-
-        faceCascade.detectMultiScale(flipFrame, contour, 1.2, 5, 0, cv::Size(20, 20));
-
-        for (auto & i : contour)
+        if (faceCaptureController->FaceDetectionAndCapture() != 0)
         {
-            cv::rectangle(flipFrame, cv::Point(i.x, i.y),
-                          cv::Point(i.x + i.width, i.y + i.height),
-                          cv::Scalar(255, 255, 255), 1);
+            return -1;
         }
-
-        cv::imshow("VideoCapture", flipFrame);
-        const auto key = cv::waitKey(1);
-        if (key == 'q')
+    }
+    else if (mode == "LearnFace")
+    {
+        if (faceCaptureController->LearnFace() != 0)
         {
-            break;
+            return -1;
+        }
+    }
+    else if (mode == "RecognitionFace")
+    {
+        if (faceCaptureController->RecognitionFace() != 0)
+        {
+            return -1;
         }
     }
 
-    camera.release();
-    cv::destroyAllWindows();
     return 0;
 }
