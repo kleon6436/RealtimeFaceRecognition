@@ -3,6 +3,7 @@
 
 int main()
 {
+    // You need to change it to the cascade class file path for your environment.
     const std::string cascadeClass = "../haarcascade_frontalface_default.xml.txt";
     auto faceCascade = cv::CascadeClassifier(cascadeClass);
 
@@ -25,10 +26,10 @@ int main()
         {
             cv::rectangle(flipFrame, cv::Point(i.x, i.y),
                           cv::Point(i.x + i.width, i.y + i.height),
-                          cv::Scalar(255, 255, 255), 1); //矩形の可視化
+                          cv::Scalar(255, 255, 255), 1);
         }
 
-        cv::imshow("win", flipFrame);
+        cv::imshow("VideoCapture", flipFrame);
         const auto key = cv::waitKey(1);
         if (key == 'q')
         {
