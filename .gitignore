@@ -33,5 +33,6 @@
 
 #Other
 .idea
+.vs
 cmake-build-*
 haarcascade_frontalface_default.xml.txt
