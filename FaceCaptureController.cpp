@@ -8,6 +8,10 @@
 
 namespace kchary::RealtimeFaceRecognition::FaceCapture
 {
+    // You need to change it to the cascade class file path for your environment.
+    static std::string SascadeClass = "../haarcascade_frontalface_default.xml.txt";
+    static std::string name[] = { "None", "kchary" };
+
     int FaceCaptureController::FaceDetectionAndCapture() const
     {
         cv::VideoCapture camera(0);
@@ -16,7 +20,7 @@ namespace kchary::RealtimeFaceRecognition::FaceCapture
             return -1;
         }
 
-        auto faceCascade = cv::CascadeClassifier(m_SascadeClass);
+        auto faceCascade = cv::CascadeClassifier(SascadeClass);
         cv::Mat inputFrame;
         std::vector<cv::Rect> faces;
         auto count = 0;
@@ -83,7 +87,7 @@ namespace kchary::RealtimeFaceRecognition::FaceCapture
             return -1;
         }
 
-        auto faceCascade = cv::CascadeClassifier(m_SascadeClass);
+        auto faceCascade = cv::CascadeClassifier(SascadeClass);
         cv::Mat inputFrame;
         std::vector<cv::Rect> faces;
         while (camera.read(inputFrame))
@@ -105,10 +109,13 @@ namespace kchary::RealtimeFaceRecognition::FaceCapture
                 auto predictScore = 0.0;
                 recognizer->predict(grayFrame(cv::Rect(cv::Point(i.x, i.y), cv::Size(i.width, i.height))), label, predictScore);
 
-                // Show text.
-                cv::putText(inputFrame, "kchary", cv::Point(i.x + 5, i.y - 5), static_cast<int>(cv::FONT_HERSHEY_SIMPLEX), 1, cv::Scalar(255, 255, 255), 2);
-                cv::putText(inputFrame, std::to_string(static_cast<int>(predictScore)) + "%", cv::Point(i.x + 5, i.y + i.height - 5),
-                            static_cast<int>(cv::FONT_HERSHEY_SIMPLEX), 1, cv::Scalar(255, 255, 255), 1);
+                if (predictScore < 100)
+                {
+                    // Show text.
+                    cv::putText(inputFrame, name[label], cv::Point(i.x + 5, i.y - 5), static_cast<int>(cv::FONT_HERSHEY_SIMPLEX), 1, cv::Scalar(255, 255, 255), 2);
+                    cv::putText(inputFrame, std::to_string(static_cast<int>(predictScore)) + "%", cv::Point(i.x + 5, i.y + i.height - 5),
+                                static_cast<int>(cv::FONT_HERSHEY_SIMPLEX), 1, cv::Scalar(255, 255, 255), 1);
+                }
             }
 
             cv::imshow("VideoCapture", inputFrame);

@@ -19,8 +19,5 @@ namespace kchary::RealtimeFaceRecognition::FaceCapture
     private:
         static int GetImagesAndLabel(const std::string& path, std::tuple<std::vector<cv::Mat>, std::vector<int>>& imagesAndLabel);
         static int GetFilePaths(const std::string& path, std::vector<std::string>& filePaths);
-
-        // You need to change it to the cascade class file path for your environment.
-        std::string m_SascadeClass = "../haarcascade_frontalface_default.xml.txt";
     };
 }
