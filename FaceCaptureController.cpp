@@ -8,10 +8,16 @@
 
 namespace kchary::RealtimeFaceRecognition::FaceCapture
 {
-    // You need to change it to the cascade class file path for your environment.
+    /**
+     * You need to change it to the cascade class file path for your environment.
+     */
     static std::string SascadeClass = "../haarcascade_frontalface_default.xml.txt";
     static std::string name[] = { "None", "kchary" };
 
+    /**
+     * Method of face detection and capture.
+     * @return 0:Success 1: Failure
+     */
     int FaceCaptureController::FaceDetectionAndCapture() const
     {
         cv::VideoCapture camera(0);
@@ -58,6 +64,10 @@ namespace kchary::RealtimeFaceRecognition::FaceCapture
         return 0;
     }
 
+    /**
+     * Method of learning face.
+     * @return 0: Success, 1: Failure
+     */
     int FaceCaptureController::LearnFace() const
     {
         std::tuple<std::vector<cv::Mat>, std::vector<int>> imagesAndLabels;
@@ -76,6 +86,10 @@ namespace kchary::RealtimeFaceRecognition::FaceCapture
         return 0;
     }
 
+    /**
+     * Method of recognizing face.
+     * @return 0: Success 1: Failure
+     */
     int FaceCaptureController::RecognitionFace() const
     {
         const auto recognizer =  cv::face::LBPHFaceRecognizer::create();
@@ -132,6 +146,12 @@ namespace kchary::RealtimeFaceRecognition::FaceCapture
         return 0;
     }
 
+    /**
+     * Method of getting images and labels.
+     * @param directoryPath Directory path.
+     * @param imagesAndLabel Tuple of images and labels.
+     * @return 0: Success, 1: Failure
+     */
     int FaceCaptureController::GetImagesAndLabel(const std::string& directoryPath, std::tuple<std::vector<cv::Mat>, std::vector<int>>& imagesAndLabel)
     {
         std::vector<std::string> filePaths;
@@ -162,6 +182,12 @@ namespace kchary::RealtimeFaceRecognition::FaceCapture
         return 0;
     }
 
+    /**
+     * Method of getting file paths.
+     * @param path Directory path.
+     * @param filePaths File paths (out)
+     * @return 0: Success, 1: Failure
+     */
     int FaceCaptureController::GetFilePaths(const std::string& path, std::vector<std::string>& filePaths)
     {
         std::filesystem::directory_iterator itr(path);
